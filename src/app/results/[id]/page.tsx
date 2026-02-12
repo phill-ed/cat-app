@@ -43,6 +43,30 @@ export default function ResultsPage() {
 
   const [resultData, setResultData] = useState<ResultData | null>(null)
   const [loading, setLoading] = useState(true)
+  const [isDownloading, setIsDownloading] = useState(false)
+
+  const handleDownloadPDF = async () => {
+    if (!sessionId) return
+    setIsDownloading(true)
+    try {
+      const response = await fetch(`/api/export/pdf/${sessionId}`)
+      if (response.ok) {
+        const blob = await response.blob()
+        const url = window.URL.createObjectURL(blob)
+        const a = document.createElement("a")
+        a.href = url
+        a.download = `CAT-Results-${resultData?.session.test.title || "Test"}-${new Date().toISOString().split("T")[0]}.pdf`
+        document.body.appendChild(a)
+        a.click()
+        window.URL.revokeObjectURL(url)
+        document.body.removeChild(a)
+      }
+    } catch (error) {
+      console.error("Failed to download PDF:", error)
+    } finally {
+      setIsDownloading(false)
+    }
+  }
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -281,9 +305,17 @@ export default function ResultsPage() {
                 <RefreshCw className="w-5 h-5" />
                 <span>Try Again</span>
               </button>
-              <button className="flex-1 flex items-center justify-center space-x-2 px-4 py-3 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-                <Share2 className="w-5 h-5" />
-                <span>Share</span>
+              <button
+                onClick={handleDownloadPDF}
+                disabled={isDownloading}
+                className="flex-1 flex items-center justify-center space-x-2 px-4 py-3 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors disabled:opacity-50"
+              >
+                {isDownloading ? (
+                  <div className="w-5 h-5 border-2 border-gray-400 border-t-gray-600 rounded-full animate-spin" />
+                ) : (
+                  <Download className="w-5 h-5" />
+                )}
+                <span>Download PDF</span>
               </button>
             </div>
           </div>

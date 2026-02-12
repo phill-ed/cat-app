@@ -4,11 +4,12 @@ import { useSession } from "next-auth/react"
 import { redirect } from "next/navigation"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { LayoutDashboard, Users, FileQuestion, ClipboardList, LogOut, Menu, X } from "lucide-react"
+import { LayoutDashboard, Users, FileQuestion, ClipboardList, BarChart3, LogOut, Menu, X } from "lucide-react"
 import { useState } from "react"
 
 const adminNavItems = [
   { href: "/admin/dashboard", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/admin/analytics", label: "Analytics", icon: BarChart3 },
   { href: "/admin/questions", label: "Questions", icon: FileQuestion },
   { href: "/admin/tests", label: "Tests", icon: ClipboardList },
   { href: "/admin/users", label: "Users", icon: Users },
