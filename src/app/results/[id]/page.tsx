@@ -36,7 +36,7 @@ interface ResultData {
 }
 
 export default function ResultsPage() {
-  const { data: session, status } = useSession()
+  const { data: authSession, status } = useSession()
   const params = useParams()
   const router = useRouter()
   const sessionId = params.id as string
