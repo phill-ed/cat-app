@@ -373,6 +373,17 @@ export default function Home() {
             <ClipboardList className="w-6 h-6" />
             <span className="text-lg font-bold text-white">CAT App</span>
           </div>
+          <div className="flex justify-center space-x-6 text-sm mb-4">
+            <Link href="/accessibility" className="hover:text-white transition-colors">
+              Accessibility
+            </Link>
+            <Link href="/privacy" className="hover:text-white transition-colors">
+              Privacy Policy
+            </Link>
+            <Link href="/terms" className="hover:text-white transition-colors">
+              Terms of Service
+            </Link>
+          </div>
           <p className="text-sm">
             © {new Date().getFullYear()} CAT App. All rights reserved.
           </p>
